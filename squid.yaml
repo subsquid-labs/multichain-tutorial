@@ -1,0 +1,19 @@
+manifestVersion: subsquid.io/v0.1
+name: multichain-transfers-squid
+version: 1
+description: 'A squid that indexes USDC transfers on ETH and polygon'
+build: 
+deploy:
+  addons:
+    postgres: 
+  processor:
+    - name: eth-processor
+      cmd: [ "sqd", "process:prod:eth" ]
+      env:
+        RPC_ENDPOINT_ETH: ${{ secrets.RPC_ENDPOINT_ETH }}
+    - name: polygon-processor
+      cmd: [ "sqd", "process:prod:polygon" ]
+      env:
+        RPC_ENDPOINT_ETH: ${{ secrets.RPC_ENDPOINT_polygon }}
+  api:
+    cmd: [ "sqd", "serve:prod" ]
